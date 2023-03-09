@@ -1,0 +1,2 @@
+class InvalidFrameException(Exception):
+    pass
