@@ -7,11 +7,13 @@ from brightness import Brightness
 from contrast import Contrast
 from saturation import Saturation
 from hue import Hue
+from gui import select_file
+
 
 
 class Master:
     def __init__(self, path) -> None:
-
+        print("Writing into the file....")
         self.objVideoLength = VideoLength(path)
         self.objAspectRatio = AspectRatio(path)
         self.objFrameRate = FrameRate(path)
@@ -32,23 +34,24 @@ class Master:
         self.contrast=self.objContrast.getContrast()
         self.saturation=self.objSaturation.getSaturation()
         self.hue=self.objHue.getHue()
+        f = open("videoMetrics.txt", "w")
+        f.write("Video Length:"+ str(self.videoLength))
+        f.write("\nVideo Aspect Ration:"+ str(self.aspectRatio))
+        f.write("\nVideo frameRate:"+ str(self.frameRate))
+        f.write("\nVideo audioBitRate:"+ str(self.audioBitRate))
+        f.write("\nVideo videoBitRate:"+ str(self.videoBitRate))
+        f.write("\nVideo brightness:"+ str(self.brightness))
+        f.write("\nVideo contrast:"+ str(self.contrast))
+        f.write("\nVideo saturation:"+ str(self.saturation))
+        f.write("\nVideo hue:"+ str(self.hue))
+        f.close()
+        print("Done Writing into file")
 
-        
-
-
-obj = Master(r"E:\HMS\Coding\Media\darkVid.mp4")
-
+path=select_file()
+obj = Master(path)
 obj.getDetails()
 
-print(obj.videoLength)
-print(obj.aspectRatio)
-print(obj.frameRate)
-print(obj.audioBitRate)
-print(obj.videoBitRate)
-print(obj.brightness)
-print(obj.contrast)
-print(obj.saturation)
-print(obj.hue)
+
 
 
 

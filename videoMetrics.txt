@@ -1,0 +1,9 @@
+Video Length:14
+Video Aspect Ration:(16, 9)
+Video frameRate:25
+Video audioBitRate:None
+Video videoBitRate:1655543
+Video brightness:125.1551
+Video contrast:58.5316
+Video saturation:51.9914
+Video hue:66.5404
