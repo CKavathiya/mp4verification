@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 
-
 class Brightness:
     def __init__(self, path) -> None:
         self.path = path
