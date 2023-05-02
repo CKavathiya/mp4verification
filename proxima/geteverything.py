@@ -11,14 +11,12 @@ class Metrics:
         return int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
 
     def everything(self):
-        # contrast
         contrast = 0
         brigthness = 0
         hue = 0
         sat = 0
         msg = ''
         currvar = 0
-
 
         noOfFrames = self.getNumberOfFrames()
         for i in range(0, noOfFrames):
@@ -37,16 +35,16 @@ class Metrics:
 
         blur = (currvar/noOfFrames)
         if (blur < 10):
-            msg = 'Blur detected'
+            msg = 'Blurr Detected'
         else:
-            msg = 'No blur detected'
+            msg = 'No Blurr Detected'
         contrast = round((contrast/noOfFrames), 4)
         brigthness = round(brigthness / (noOfFrames), 4)
         hue = round(hue/noOfFrames, 4)
         sat = round(sat/noOfFrames, 4)
 
-        # brightness
+        
 
-        return (("brigthness :", brigthness), ("contrast :", contrast), ("hue :", hue), ("saturation :", sat), ("blur detection :", msg))
+        return [brigthness,contrast,hue,sat,msg]
 
-    # print(everything)
+    
