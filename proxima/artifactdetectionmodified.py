@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import os
 
 class Artifact:
     def __init__(self, path) -> None:
@@ -10,10 +11,11 @@ class Artifact:
         return int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
 
     def getArtifact(self):
-        net = cv.dnn.readNet('D:\mp4verification-test\mp4verification-test\proxima\yolov3.weights', 'D:\mp4verification-test\mp4verification-test\proxima\yolov3.cfg')
+        # net = cv.dnn.readNet("D:\mp4verification-testpy\proxima\yolov3.weights", "D:\mp4verification-testpy\proxima\yolov3.cfg")
+        net = cv.dnn.readNet(os.path.join("proxima","yolov3.weights"),os.path.join("proxima","yolov3.cfg"))
 
         classes = []
-        with open("D:\mp4verification-test\mp4verification-test\proxima\coco.names", "r") as f:
+        with open(os.path.join("proxima","coco.names"), "r") as f:
             classes = f.read().splitlines()
 
         # cap = cv2.VideoCapture('D:\opencv-4.x\opencv-4.x\samples\data/vtest.avi')
