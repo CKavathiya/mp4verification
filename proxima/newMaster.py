@@ -16,7 +16,7 @@ from tkinter import filedialog
 import threading
 import customtkinter as ctk
 import os
-
+from handdetection import hdetection
 class Master:
     def __init__(self) -> None:
         pass
@@ -35,6 +35,7 @@ class Master:
         self.objBlur = Blur(path)
         self.objArtifact = Artifact(path)
         self.objEverything = Metrics(path)
+        self.objHand=hdetection(path)
 
     def Metricstogether(self):
         self.every = self.objEverything.everything()
@@ -49,6 +50,8 @@ class Master:
 
     def ArtifactDetection(self):
         self.artifactdetect = self.objArtifact.getArtifact()
+    def HandDetection(self):
+        self.handdetect=self.objHand.detect()
 
 
 ctk.set_appearance_mode("dark")
@@ -117,6 +120,13 @@ def btn3_func(obj):
     writeIntoTextArea("\nObject Detection Info:")
     writeIntoTextArea(str(obj.artifactdetect))
     disableBtn(btn3)
+    enableBtn(btn5)
+
+def btn5_func(obj):
+    obj.HandDetection()
+    writeIntoTextArea("\nGesture Detection Info:")
+    writeIntoTextArea(str(obj.handdetect))
+    disableBtn(btn5)
     enableBtn(btn4)
 
 def findFileName(obj):
@@ -141,12 +151,14 @@ def btn4_func(obj):
     f.write('\n\nBlurr Detection Information : ' + str(obj.every[4]))
     f.write("\nObject Detection Info:")
     f.write(str(obj.artifactdetect))
+    f.write("\nGesture Detection Info:")
+    f.write(str(obj.handdetect))
     writeIntoTextArea("\n")
     writeIntoTextArea("Text File Ready", "green")
     f.close()
     disableAllButtons()
     enableBtn(btn1)
-    enableBtn(btn5)
+    enableBtn(btn6)
     
     
 
@@ -162,18 +174,22 @@ btn2.grid(sticky="ew", row=1, column=0, padx=25, pady=15, ipadx=15)
 btn3 = ctk.CTkButton(right_frame, text=" Object Detection    ",command=lambda: btn3_func(obj), corner_radius=18)
 btn3.grid(sticky="ew", row=3, column=0, padx=25, pady=15, ipadx=20)
 
+btn5 = ctk.CTkButton(right_frame, text=" Gesture Detection",command=lambda: btn5_func(obj), corner_radius=18)
+btn5.grid(sticky="ew", row=4, column=0, padx=25, pady=15, ipadx=20)
+
 btn4 = ctk.CTkButton(right_frame, text=" Write Output to File",command=lambda: btn4_func(obj), corner_radius=18)
-btn4.grid(sticky="ew", row=4, column=0, padx=25, pady=15, ipadx=20)
+btn4.grid(sticky="ew", row=5, column=0, padx=25, pady=15, ipadx=20)
 
-
-btn5 = ctk.CTkButton(right_frame, text=" Exit ",command=root.destroy, corner_radius=18)
-btn5.grid(sticky="ew", row=5, column=0, padx=25, pady=15, ipadx=20)
+btn6 = ctk.CTkButton(right_frame, text=" Exit ",command=root.destroy, corner_radius=18)
+btn6.grid(sticky="ew", row=6, column=0, padx=25, pady=15, ipadx=20)
 
 
 def disableAllButtons():
     btn2.configure(state="disabled")
     btn3.configure(state="disabled")
     btn4.configure(state="disabled")
+    btn5.configure(state="disabled")
+
 
 def disableBtn(btn):
     btn.configure(state="disabled")
