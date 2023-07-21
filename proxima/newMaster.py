@@ -73,6 +73,9 @@ text = Text(left_frame, height=30, width=105, wrap=WORD,bd=0, bg="#212121", fg="
 text.tag_config("green", background="green", foreground="silver")
 text.grid(row=0, column=0, padx=15, pady=15)
 
+btn2_flag=False
+btn3_flag=False
+btn5_flag=False
 
 def writeIntoTextArea(text, color=None):
     text_widget = left_frame.winfo_children()[0]
@@ -84,12 +87,14 @@ def selectFile(obj):
     file_path = filedialog.askopenfilename(filetypes=[('MP4 files', '*.mp4')])
     obj.path = file_path
     obj.intialize(file_path)
-    disableBtn(btn1)
     enableBtn(btn2)
     enableBtn(btn3)
+    # disableBtn(btn4)
+    enableBtn(btn5)
+
 
 def btn2_func(obj):
-    disableBtn(btn1)
+    # disableBtn(btn1)
     obj.Metricstogether()
 
     writeIntoTextArea('videoLength : ' + str(obj.videoLength)+" seconds")
@@ -111,7 +116,10 @@ def btn2_func(obj):
     writeIntoTextArea('\nHue : ' + str(obj.every[2])+" (0-255)")
     writeIntoTextArea('\nSaturation : ' + str(obj.every[3])+" (0-255)")
     writeIntoTextArea('\nBlurr Detection Information : ' + str(obj.every[4]))
-    disableBtn(btn2)
+    btn2_flag=True
+    if(btn2_flag and btn3_flag and btn5_flag):
+        enableBtn(btn4)
+    # disableBtn(btn2)
     
 
 
@@ -119,24 +127,14 @@ def btn3_func(obj):
     obj.ArtifactDetection()
     writeIntoTextArea("\nObject Detection Info:")
     writeIntoTextArea(str(obj.artifactdetect))
-    disableBtn(btn3)
+    # disableBtn(btn3)
+    btn3_flag=True
+    if(btn2_flag and btn3_flag and btn5_flag):
+        enableBtn(btn4)
     enableBtn(btn5)
 
-def btn5_func(obj):
-    obj.HandDetection()
-    writeIntoTextArea("\nGesture Detection Info:")
-    writeIntoTextArea(str(obj.handdetect))
-    disableBtn(btn5)
-    enableBtn(btn4)
-
-def findFileName(obj):
-    tuples = obj.path.split('/')
-    fileNameWithExt = tuples[len(tuples)-1]
-    fileName = fileNameWithExt[0:len(fileNameWithExt)-4]
-    fileName += ".txt"
-    return fileName
-
 def btn4_func(obj):
+    
     fileName = findFileName(obj)
     f = open(fileName, "w")
     f.write('videoLength : ' + str(obj.videoLength)+" seconds")
@@ -159,9 +157,23 @@ def btn4_func(obj):
     disableAllButtons()
     enableBtn(btn1)
     enableBtn(btn6)
-    
-    
 
+def btn5_func(obj):
+    obj.HandDetection()
+    writeIntoTextArea("\nGesture Detection Info:")
+    writeIntoTextArea(str(obj.handdetect))
+    # disableBtn(btn5)
+    btn5_flag=True
+    if(btn2_flag and btn3_flag and btn5_flag):
+        enableBtn(btn4)
+    enableBtn(btn4)
+
+def findFileName(obj):
+    tuples = obj.path.split('/')
+    fileNameWithExt = tuples[len(tuples)-1]
+    fileName = fileNameWithExt[0:len(fileNameWithExt)-4]
+    fileName += ".txt"
+    return fileName
 
 obj = Master()
 
